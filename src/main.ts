@@ -11,14 +11,18 @@ import Test from "./Test";
 import ScoreHandler from "./handler/ScoreHandler";
 import GameStateHandler from "./handler/GameStateHandler";
 import MappoolHandler from "./handler/MappoolHandler";
+import AmpHandler from "./handler/AmpHandler";
 
 const engine = new ZEngine("ws://127.0.0.1:24050/ws");
 const test = new Test(engine);
 
-const beatmapHandler = new BeatmapHandler(engine, test);
+const ampHandler = new AmpHandler(engine);
+await ampHandler.init();
+
+const beatmapHandler = new BeatmapHandler(engine);
 const chatHandler = new ChatHandler(engine, test);
-const teamHandler = new TeamHandler(engine, test);
-const scoreHandler = new ScoreHandler(engine, test);
+const teamHandler = new TeamHandler(engine);
+const scoreHandler = new ScoreHandler(engine, ampHandler, test);
 const gameStateHandler = new GameStateHandler(engine, test);
 new MappoolHandler();
 

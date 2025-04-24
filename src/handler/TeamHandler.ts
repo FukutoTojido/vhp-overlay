@@ -1,5 +1,4 @@
 import type ZEngine from "@fukutotojido/z-engine";
-import type Test from "../Test";
 
 export default class TeamHandler {
 	static map = [
@@ -29,7 +28,7 @@ export default class TeamHandler {
 		},
 	];
 
-	constructor(engine: ZEngine, test?: Test) {
+	constructor(engine: ZEngine) {
 		for (const value of TeamHandler.map) {
 			const element: HTMLElement | null = document.querySelector(
 				`#${value.id}`,

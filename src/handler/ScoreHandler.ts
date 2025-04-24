@@ -3,6 +3,7 @@ import type { Data } from "@fukutotojido/z-engine";
 import { CountUp, type CountUpOptions } from "countup.js";
 import type Test from "../Test";
 import IPCClient from "./IPCClient";
+import type AmpHandler from "./AmpHandler";
 
 export enum ScoringCondition {
 	SCORE = "score",
@@ -46,6 +47,7 @@ export default class ScoreHandler {
 
 	clients: IPCClient[] = [];
 	engine: ZEngine;
+	ampHandler: AmpHandler;
 	test?: Test;
 
 	scoringCondition = ScoringCondition.SCORE;
@@ -67,8 +69,9 @@ export default class ScoreHandler {
 		suffix: "x",
 	};
 
-	constructor(engine: ZEngine, test?: Test) {
+	constructor(engine: ZEngine, ampHandler: AmpHandler, test?: Test) {
 		this.engine = engine;
+		this.ampHandler = ampHandler;
 		this.test = test;
 
 		this.scoreLeftElement = document.querySelector("#scoreLeft");
@@ -127,7 +130,7 @@ export default class ScoreHandler {
 		);
 	}
 
-	update(data: Data) {
+	update(_: Data) {
 		if (this.test?.testMode) {
 			this.test.testAll();
 			return;
@@ -135,9 +138,24 @@ export default class ScoreHandler {
 
 		switch (this.scoringCondition) {
 			case ScoringCondition.SCORE: {
+				const scoresLeft = this.clients
+					.filter((client) => client.team === "left")
+					.map(
+						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1),
+					);
+				const scoresRight = this.clients
+					.filter((client) => client.team === "right")
+					.map(
+						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1),
+					);
+
+				const { left, right } = this.ampHandler.applyScoreWithAmp(scoresLeft, scoresRight, this.clients);
+
 				this.updateScoring(
-					data.tourney.manager.gameplay.score.left,
-					data.tourney.manager.gameplay.score.right,
+					left,
+					right,
+					// scoreLeft,
+					// scoreRight,
 				);
 				break;
 			}
@@ -185,6 +203,28 @@ export default class ScoreHandler {
 		this.clients = [...Array(numClients)].map((_, idx) => {
 			return new IPCClient(this.engine, idx);
 		});
+
+		for (const [idx, client] of Object.entries(this.clients)) {
+			const team = +idx < this.clients.length / 2 ? "left" : "right";
+			const ele = document.createElement("div");
+			ele.classList.add("flex", "w-full", "items-center", "gap-5");
+			ele.innerHTML = `
+				<input type="checkbox" name="client-${team}-${idx}" id="client-${team}-${idx}">
+				<label for="client-${team}-${idx}" class="font-medium">${idx}</label>
+			`;
+
+			ele
+				.querySelector<HTMLInputElement>("input")
+				?.addEventListener("change", function () {
+					client.selectedForCustom = this.checked;
+				});
+
+			if (team === "left")
+				document.querySelector<HTMLDivElement>("#selectedLeft")?.append(ele);
+
+			if (team === "right")
+				document.querySelector<HTMLDivElement>("#selectedRight")?.append(ele);
+		}
 	}
 
 	onComplete() {
@@ -257,10 +297,10 @@ export default class ScoreHandler {
 		} / 2)`;
 
 		const isLeftLeading =
-			difference > 0 !==
+			difference < 0 !==
 			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
 		const isRightLeading =
-			difference < 0 !==
+			difference > 0 !==
 			(this.scoringCondition !== ScoringCondition.MISS_COUNT);
 
 		this.barLeftElement.style.width = isLeftLeading
