@@ -216,16 +216,20 @@ export default class MappoolHandler {
 
 		const mappoolContainer =
 			document.querySelector<HTMLDivElement>("#mappoolContainer");
-		if (!mappoolContainer) return;
+		const video = document.querySelector<HTMLVideoElement>("video");
+
+		if (!mappoolContainer || !video) return;
 
 		if (this.showMappool) {
 			mappoolContainer.style.clipPath =
 				"polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+			video.style.clipPath = "polygon(0% 0%, 0 100%, 100% 75.92%, 100% 9.26%, 100% 9.26%, 100% 75.92%, 0 75.92%, 0 100%, 100% 100%, 100% 0)"
 		}
 
 		if (!this.showMappool) {
 			mappoolContainer.style.clipPath =
 				"polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)";
+			video.style.clipPath = "polygon(0% 0%, 0 100%, 0% 75.92%, 0% 9.26%, 100% 9.26%, 100% 75.92%, 0 75.92%, 0 100%, 100% 100%, 100% 0)"
 		}
 	}
 

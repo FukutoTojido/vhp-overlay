@@ -85,7 +85,7 @@ export default class TeamHandler {
 	createStar(isMarked: boolean) {
 		const star = document.createElement("div");
 		star.className = "w-[40px] h-[15px] rounded-full bg-mantle border-1 border-surface-0";
-		if (isMarked) star.classList.add("bg-text");
+		if (isMarked) star.classList.add("bg-vhp");
 
 		return star;
 	}

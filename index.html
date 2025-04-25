@@ -10,8 +10,11 @@
 
 <body>
 	<div id="app" class="absolute top-0 left-0 w-[1920px] h-[1080px]">
+
+		<video src="/Background.webm" class="absolute w-full h-full transition-all" autoplay muted loop
+			style="clip-path: polygon(0% 0%, 0 100%, 0% 75.92%, 0% 9.26%, 100% 9.26%, 100% 75.92%, 0 75.92%, 0 100%, 100% 100%, 100% 0);"></video>
 		<div id="topBar"
-			class="absolute top-0 left-0 w-full h-[100px] bg-base px-10 flex items-center justify-between text-text py-5">
+			class="absolute top-0 left-0 w-full h-[100px] _bg-base px-10 flex items-center justify-between text-vhp py-5">
 			<div class="flex items-center gap-5 h-full">
 				<div class="h-full bg-cover bg-center rounded-xl transition-all" id="leftAmpIcon"></div>
 				<div class="flex flex-col items-start gap-2.5">
@@ -29,10 +32,10 @@
 		</div>
 		<div id="main" class="absolute top-[100px] w-full h-[720px]">
 			<div class="absolute top-0 left-0 w-full h-full" id="resultContainer"></div>
-			<div class="absolute top-0 left-0 w-full h-full p-5 flex flex-col items-center gap-8 bg-base transition-all"
+			<div class="absolute top-0 left-0 w-full h-full p-5 flex flex-col items-center gap-8 _bg-base transition-all"
 				style="clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)" id="mappoolContainer"></div>
 		</div>
-		<div id="bottomBar" class="absolute bottom-0 left-0 w-full h-[260px] bg-base text-text">
+		<div id="bottomBar" class="absolute bottom-0 left-0 w-full h-[260px] _bg-base text-vhp">
 			<div id="scoreContainer" class="absolute top-0 left-0 w-full h-full opacity-0 transition-opacity">
 				<div id="containerLeft" class="absolute top-0 left-0 w-[50%] h-3 flex justify-end">
 					<div id="anchorLeft"></div>
@@ -50,7 +53,7 @@
 					<div id="scoreRight" class="absolute text-4xl top-5 p-2.5">0</div>
 				</div>
 			</div>
-			<div id="info" class="absolute top-0 left-0 w-full h-full p-5 flex gap-5 text-text">
+			<div id="info" class="absolute top-0 left-0 w-full h-full p-5 flex gap-5 text-vhp">
 				<div id="chat"
 					class="p-5 bg-mantle rounded-xl border-1 border-surface-0 w-[50%] h-full overflow-hidden transition-opacity">
 					<div id="chatInner" class="flex flex-col w-full h-full overflow-auto"></div>
@@ -176,7 +179,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-5 p-5 rounded-xl border-1 border-surface-0 bg-base w-full">
-			<label for="testScoreLeft">Custom Score</label>
+			<label for="testScoreLeft">Custom Multiplier</label>
 			<input type="number" name="customScoreMult" id="customScoreMult" value="1">
 		</div>
 	</div>
