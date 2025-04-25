@@ -52,6 +52,11 @@ export default class AmpHandler {
 					ele.checked = false;
 				}
 				this.currentAmpLeft = undefined;
+				const ele = document.querySelector<HTMLDivElement>("#leftAmpIcon");
+				if (ele) {
+					ele.style.aspectRatio = "";
+					ele.style.backgroundImage = ""
+				} 
 			});
 
 		document
@@ -63,6 +68,11 @@ export default class AmpHandler {
 					ele.checked = false;
 				}
 				this.currentAmpRight = undefined;
+				const ele = document.querySelector<HTMLDivElement>("#rightAmpIcon");
+				if (ele) {
+					ele.style.aspectRatio = "";
+					ele.style.backgroundImage = ""
+				} 
 			});
 	}
 
@@ -144,8 +154,24 @@ export default class AmpHandler {
 					: null;
 
 		if (!amp) return;
-		if (side === "left") this.currentAmpLeft = amp;
-		if (side === "right") this.currentAmpRight = amp;
+		if (side === "left") {
+			this.currentAmpLeft = amp;
+
+			const ele = document.querySelector<HTMLDivElement>("#leftAmpIcon");
+			if (ele) {
+				ele.style.aspectRatio = "1 / 1";
+				ele.style.backgroundImage = `url('https://s.hoaq.works/${amp.id}.png')`;
+			}
+		}
+		if (side === "right") {
+			this.currentAmpRight = amp;
+
+			const ele = document.querySelector<HTMLDivElement>("#rightAmpIcon");
+			if (ele) {
+				ele.style.aspectRatio = "1 / 1";
+				ele.style.backgroundImage = `url('https://s.hoaq.works/${amp.id}.png')`;
+			}
+		}
 
 		console.log(this.currentAmpLeft, this.currentAmpRight);
 	}

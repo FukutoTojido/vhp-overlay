@@ -23,7 +23,7 @@ class BeatmapContainer {
 		this.data = data;
 
 		const ele = document.createElement("div");
-		ele.classList.add("w-[500px]", "h-[60px]", "flex", "rounded-xl", "overflow-hidden", "border-1", "border-surface-0", "select-none");
+		ele.classList.add("w-[400px]", "h-[60px]", "flex", "rounded-xl", "overflow-hidden", "border-1", "border-surface-0", "select-none");
 		this.ele = ele;
 
 		this.ele.innerHTML = `
