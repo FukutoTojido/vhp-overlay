@@ -203,8 +203,10 @@ export default class MappoolHandler {
 	beatmaps: Beatmap[] = [];
 	mods: ModContainer[] = [];
 	showMappool = false;
+	json: Data;
 
-	constructor() {
+	constructor(json: Data) {
+		this.json = json;
 		this.init();
 		document
 			.querySelector("#toggleMappool")
@@ -235,7 +237,7 @@ export default class MappoolHandler {
 
 	async init() {
 		try {
-			const json: Data = (await axios.get("./data.json")).data;
+			const json: Data = this.json;
 			const mapIds: number[] = json.mappool.reduce((acc, currMod) => {
 				acc.push(...currMod.maps);
 				return acc;

@@ -1,4 +1,8 @@
 import type ZEngine from "@fukutotojido/z-engine";
+import axios from "axios";
+import { BeatmapDecoder } from 'osu-parsers';
+import { StandardRuleset } from 'osu-standard-stable';
+import type { Data } from "@fukutotojido/z-engine";
 
 export default class BeatmapHandler {
 	static map = [
@@ -18,37 +22,90 @@ export default class BeatmapHandler {
 			id: "mapper",
 			key: "menu.bm.metadata.mapper",
 		},
-		{
-			id: "CS",
-			key: "menu.bm.stats.CS",
-		},
-		{
-			id: "AR",
-			key: "menu.bm.stats.AR",
-		},
-		{
-			id: "OD",
-			key: "menu.bm.stats.OD",
-		},
-		{
-			id: "BPM",
-			key: "menu.bm.stats.BPM.common",
-		},
-		{
-			id: "SR",
-			key: "menu.bm.stats.fullSR",
-		},
-		{
-			id: "length",
-			key: "menu.bm.time.full",
-		},
+		// {
+		// 	id: "CS",
+		// 	key: "menu.bm.stats.CS",
+		// },
+		// {
+		// 	id: "AR",
+		// 	key: "menu.bm.stats.AR",
+		// },
+		// {
+		// 	id: "OD",
+		// 	key: "menu.bm.stats.OD",
+		// },
+		// {
+		// 	id: "BPM",
+		// 	key: "menu.bm.stats.BPM.common",
+		// },
+		// {
+		// 	id: "SR",
+		// 	key: "menu.bm.stats.fullSR",
+		// },
+		// {
+		// 	id: "length",
+		// 	key: "menu.bm.time.full",
+		// },
 		{
 			id: "metadata",
 			key: "menu.bm.path.full",
-		},
+		}
 	];
 
-	constructor(engine: ZEngine) {
+	decoder: BeatmapDecoder;
+	ruleset: StandardRuleset;
+
+	constructor(engine: ZEngine, mappoolJson: Data) {
+		this.decoder = new BeatmapDecoder();
+		this.ruleset = new StandardRuleset();
+
+		engine.register("menu.bm.path.file", async (_, newValue, data) => {
+			let _mod = "";
+			for (const { mod, maps } of mappoolJson.mappool) {
+				if (maps.includes(data.menu.bm.id)) {
+					_mod = mod;
+					break; 
+				}
+			};
+
+			const mods = this.ruleset.createModCombination(_mod);
+			try {
+				const { data: raw } = await axios.get(`http://127.0.0.1:24050/Songs/${encodeURIComponent(newValue)}`);
+				const parsed = this.decoder.decodeFromString(raw, false);
+				const calc = this.ruleset.createDifficultyCalculator(parsed);
+				const beatmap = this.ruleset.applyToBeatmapWithMods(parsed, mods);
+				const diff = calc.calculateWithMods(mods);
+
+				const CS = beatmap.difficulty.circleSize;
+				const AR = beatmap.difficulty.approachRate;
+				const OD = beatmap.difficulty.overallDifficulty;
+				const SR = diff.starRating;
+				const length = this.toMinutes(beatmap.length);
+				const BPM = beatmap.bpm;
+
+				const CSElement = document.querySelector<HTMLDivElement>("#CS");
+				if (CSElement) CSElement.innerText = CS.toFixed(1);
+
+				const ARElement = document.querySelector<HTMLDivElement>("#AR");
+				if (ARElement) ARElement.innerText = AR.toFixed(1);
+
+				const ODElement = document.querySelector<HTMLDivElement>("#OD");
+				if (ODElement) ODElement.innerText = OD.toFixed(1);
+
+				const SRElement = document.querySelector<HTMLDivElement>("#SR");
+				if (SRElement) SRElement.innerText = SR.toFixed(2);
+
+				const BPMElement = document.querySelector<HTMLDivElement>("#BPM");
+				if (BPMElement) BPMElement.innerText = BPM.toFixed(0);
+
+				const LengthElement = document.querySelector<HTMLDivElement>("#length");
+				if (LengthElement) LengthElement.innerText = length;
+
+			} catch (e) { 
+				console.error(e);
+			}
+		})
+
 		for (const value of BeatmapHandler.map) {
 			const element: HTMLElement | null = document.querySelector(
 				`#${value.id}`,
