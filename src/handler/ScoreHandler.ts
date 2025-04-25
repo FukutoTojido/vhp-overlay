@@ -141,12 +141,12 @@ export default class ScoreHandler {
 				const scoresLeft = this.clients
 					.filter((client) => client.team === "left")
 					.map(
-						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1),
+						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1) * ((2 & client.mods) !== 0 ? 1.85 : 1),
 					);
 				const scoresRight = this.clients
 					.filter((client) => client.team === "right")
 					.map(
-						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1),
+						(client) => client.score * ((8 & client.mods) !== 0 ? 0.85 : 1) * ((2 & client.mods) !== 0 ? 1.85 : 1),
 					);
 
 				const { left, right } = this.ampHandler.applyScoreWithAmp(scoresLeft, scoresRight, this.clients);
