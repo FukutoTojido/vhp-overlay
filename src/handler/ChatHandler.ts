@@ -61,7 +61,7 @@ export default class ChatHandler {
 		const teamColor = {
 			bot: "yellow",
 			left: "red",
-			right: "red",
+			right: "blue",
 		};
 		const element = document.createElement("div");
 		element.className = "w-full flex items-start gap-5";
@@ -71,11 +71,22 @@ export default class ChatHandler {
 		timeElement.innerText = time;
 
 		const nameElement = document.createElement("div");
-		nameElement.className = "w-[120px] font-bold";
+		nameElement.className = "w-[140px] font-bold";
 		if (teamColor[team as keyof typeof teamColor]) {
-			nameElement.classList.add(
-				`text-${teamColor[team as keyof typeof teamColor]}`,
-			);
+			switch (team) {
+				case "bot": {
+					nameElement.classList.add("text-bot");
+					break;
+				}
+				case "left": {
+					nameElement.classList.add("text-red");
+					break;
+				}
+				case "right": {
+					nameElement.classList.add("text-blue");
+					break;
+				}
+			}
 		}
 		nameElement.innerText = name;
 
