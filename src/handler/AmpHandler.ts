@@ -93,13 +93,13 @@ export default class AmpHandler {
 		const ampsIdRight =
 			this.teams.find((team) => team.name === teamRight)?.ampsList ?? [];
 
-		this.ampsLeft = ampsIdLeft.reduce((accm, curr) => {
+		this.ampsLeft = [...new Set([...ampsIdLeft, ...ampsIdRight])].reduce((accm, curr) => {
 			const amp = ampsList.find((amp) => amp.id === curr);
 			if (amp) accm.push(amp);
 			return accm;
 		}, [] as Amp[]);
 
-		this.ampsRight = ampsIdRight.reduce((accm, curr) => {
+		this.ampsRight = [...new Set([...ampsIdLeft, ...ampsIdRight])].reduce((accm, curr) => {
 			const amp = ampsList.find((amp) => amp.id === curr);
 			if (amp) accm.push(amp);
 			return accm;
