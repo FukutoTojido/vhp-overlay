@@ -122,7 +122,7 @@ export const ampsList: Amp[] = [
 	{ id: "a12", name: "Scale Of Justice" },
 	{ id: "b1", name: "Accuracy Cond" },
 	{ id: "b2", name: "Max-combo Cond" },
-	{ id: "b3", name: "300 is not the limit" },
+	{ id: "b3", name: "Hiding In The Dark" },
 	{
 		id: "b4",
 		name: "AFK",
