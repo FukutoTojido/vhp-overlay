@@ -143,7 +143,7 @@ export default class ScoreHandler {
 					.map(
 						(client) =>
 							client.score *
-							((8 & client.mods) !== 0 ? 0.85 : 1) *
+							((8 & client.mods) !== 0 && this.ampHandler.currentAmpLeft?.id !== "b3" ? 0.85 : 1) *
 							((2 & client.mods) !== 0 ? 1.85 : 1),
 					);
 				const scoresRight = this.clients
@@ -151,7 +151,7 @@ export default class ScoreHandler {
 					.map(
 						(client) =>
 							client.score *
-							((8 & client.mods) !== 0 ? 0.85 : 1) *
+							((8 & client.mods) !== 0 && this.ampHandler.currentAmpRight?.id !== "b3" ? 0.85 : 1) *
 							((2 & client.mods) !== 0 ? 1.85 : 1),
 					);
 
