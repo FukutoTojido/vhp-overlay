@@ -70,7 +70,7 @@ export default class BeatmapHandler {
 
 			const mods = this.ruleset.createModCombination(_mod);
 			try {
-				const { data: raw } = await axios.get(`http://127.0.0.1:24050/Songs/${encodeURIComponent(newValue)}`);
+				const { data: raw } = await axios.get(`http://127.0.0.1:24050/Songs/${encodeURIComponent(data.menu.bm.path.folder)}/${encodeURIComponent(newValue)}`);
 				const parsed = this.decoder.decodeFromString(raw, false);
 				const calc = this.ruleset.createDifficultyCalculator(parsed);
 				const beatmap = this.ruleset.applyToBeatmapWithMods(parsed, mods);
