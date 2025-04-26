@@ -37,7 +37,12 @@
     },
     {
         "name": "BANH MYYY RAM RAM",
-        "ampsList": []
+        "ampsList": [
+            "c1",
+            "b5",
+            "a8",
+            "t2"
+        ]
     },
     {
         "name": "TEAM THỦ KHOA",
@@ -68,7 +73,12 @@
     },
     {
         "name": "MBBank 0375506490",
-        "ampsList": []
+        "ampsList": [
+            "a3",
+            "b4",
+            "d5",
+            "t3"
+        ]
     },
     {
         "name": "anti hd2",
@@ -81,7 +91,12 @@
     },
     {
         "name": "o ii a i o iii a i",
-        "ampsList": []
+        "ampsList": [
+            "b3",
+            "a4",
+            "c5",
+            "t4"
+        ]
     },
     {
         "name": "Breaking Chad",
@@ -103,11 +118,21 @@
     },
     {
         "name": "Con Nhà Lành",
-        "ampsList": []
+        "ampsList": [
+            "d2",
+            "b6",
+            "a8",
+            "t2"
+        ]
     },
     {
         "name": "Gufi hjhj",
-        "ampsList": []
+        "ampsList": [
+            "b1",
+            "c4",
+            "a10",
+            "t3"
+        ]
     },
     {
         "name": "Hop On Strinova",
